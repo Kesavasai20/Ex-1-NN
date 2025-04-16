@@ -1,5 +1,5 @@
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>NAME:K KESAVA SAI</H3>
+<H3>REGISTER NO: 212223230105.</H3>
 <H3>EX. NO.1</H3>
 <H3>DATE</H3>
 <H1 ALIGN =CENTER> Introduction to Kaggle and Data preprocessing</H1>
@@ -37,11 +37,93 @@ STEP 5:Normalizing the data<BR>
 STEP 6:Splitting the data into test and train<BR>
 
 ##  PROGRAM:
-TYPE YOUR CODE HERE
+```python
+#import libraries
+from google.colab import files
+import pandas as pd
+import io
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
 
+#Opening the file
+df = pd.read_csv("Churn_Modelling.csv")
+df.head()
+df.tail()
+df.info()
+df.columns
+```
+## OUTPUT:
+![image](https://github.com/user-attachments/assets/b14d24f0-8646-4115-ab7b-a06df9ebfecb)
+
+
+```python
+# Finding Missing Values
+df.isnull().sum()
+```
+
+## OUTPUT :
+![image](https://github.com/user-attachments/assets/ee5505db-2af2-48a1-a199-054726f2e22e)
+
+```PYTHON
+#Check for Duplicates
+df["duplicated"] = df.duplicated()
+
+df.loc[df["duplicated"] == True]
+```
 
 ## OUTPUT:
-SHOW YOUR OUTPUT HERE
+![image](https://github.com/user-attachments/assets/a5b8bb70-2ad8-4f29-bd0d-7d0e85b3f226)
+
+```python
+print("Outliers (Summary Statistics):\n", df.describe(), "\n")
+```
+
+## OUTPUT:
+![image](https://github.com/user-attachments/assets/b945f257-b8ef-4d29-83db-c5394baa047d)
+
+```python
+#Normalize the dataset
+standard = StandardScaler()
+
+cols = ['Surname','Geography','Gender','duplicated']
+df_copy = df.drop(columns = cols)
+df_copy = pd.DataFrame(standard.fit_transform(df_copy), columns=df_copy.columns)
+df_copy.head()
+```
+## OUTPUT:
+![image](https://github.com/user-attachments/assets/7fda2294-1289-4eae-8aa3-e6d35ba33503)
+
+
+```python
+#split the dataset into input and output
+input_df = df_copy.drop('Exited', axis = 1)
+input_df.head()
+
+output_df = df_copy['Exited']
+output_df
+```
+
+## OUTPUT:
+![image](https://github.com/user-attachments/assets/ead693a1-67aa-4f2c-8b18-1de56c80083a)
+
+
+```python
+#splitting the data for training & Testing
+x_train, x_test, y_train, y_test = train_test_split(input_df, output_df, test_size = 0.3, random_state =434)
+```
+
+
+```python
+#Print the training data and testing data
+x_train
+y_train
+x_test
+y_test
+```
+
+## OUTPUT:
+![image](https://github.com/user-attachments/assets/9b9cfa88-4561-4746-b65c-d8493d460193)
 
 
 ## RESULT:
